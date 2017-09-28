@@ -4,6 +4,7 @@ before_install:
 - node --version
 install:
 - npm install
+- ./node_modules/.bin/react-native init foregather
 android:
   components:
   - build-tools-23.0.1
@@ -13,8 +14,9 @@ android:
   - extra-google-m2repository
   - addon-google_apis-google-16
 script: 
-- ./node_modules/.bin/react-native init foregather
 - mv foregather/android .
 - mv foregather/ios .
 - rm -fr foregather
-- cd android && ./gradlew assembleRelease
+# - mkdir -p android/app/src/main/assets
+# - ./node_modules/.bin/react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
+# - cd android && ./gradlew assembleRelease
