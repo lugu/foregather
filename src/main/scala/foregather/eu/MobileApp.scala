@@ -2,9 +2,9 @@ package foregather.eu
 
 import sri.universal.apis.AppRegistry
 
-object MobileApp extends JSApp {
+object MobileApp extends App {
 
-  def main(args:Array[String]) = {
+  override def main(args:Array[String]) = {
     AppRegistry.registerComponent("foregather", () => components.root)
   }
 }
