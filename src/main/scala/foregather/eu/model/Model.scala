@@ -12,6 +12,7 @@ object Answers {
 import Difficulty._
 import Answers.Answers
 
+case class Quiz(qcms: Set[QCM])
 
 case class QCM(
     question: String,

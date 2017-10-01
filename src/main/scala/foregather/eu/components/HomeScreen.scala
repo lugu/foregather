@@ -4,24 +4,19 @@ import sri.macros.{OptDefault => NoValue, OptionalParam => U}
 import sri.navigation._
 import sri.universal.components._
 import sri.universal.styles.InlineStyleSheetUniversal
-import foregather.eu.components.ScreenWithParams.Params
+import foregather.eu.components.QuizScreen.Params
 
 import scala.scalajs.js
 
+import foregather.eu.model.QCM
+import foregather.eu.model.DataSet
 
 class HomeScreen extends NavigationScreenComponentNoPS {
   import HomeScreen._
   def render() = {
     View(style = styles.container)(
-      getBlock(() =>
-                 navigation.navigate[ScreenWithParams](new Params {
-                   override val title: String = "Second title"
-                 }),
-               "Screen With Params"),
-      getBlock(() => navigation.navigate[ScreenWithCustomRightButton],
-               "Screen With Right Button"),
-      getBlock(() => navigation.navigate[LazyLoadScreen], "LazyLoad Screen"),
-      getBlock(() => navigation.navigate[AboutScreen], "About Screen")
+      getBlock(() => navigation.navigate[QuizScreen]( new Params { override val qcm: QCM = DataSet.next }),
+               "Quiz")
     )
   }
 
