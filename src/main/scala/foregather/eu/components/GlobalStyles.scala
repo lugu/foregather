@@ -8,7 +8,7 @@ object GlobalStyles extends InlineStyleSheetUniversal {
 
   val wholeContainer = style(flex := 1, padding := 20)
 
-  val defaultHeader = style(backgroundColor := "#E91E63")
+  val defaultHeader = style(backgroundColor := "#B69555")
 
   val defaultCardStyle = style(backgroundColor := "rgb(243, 241, 241)")
 
