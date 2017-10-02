@@ -14,9 +14,11 @@ android:
   - extra-google-m2repository
   - addon-google_apis-google-16
 script: 
+- rm -fr node_modules
 - mv foregather/android .
 - mv foregather/ios .
+- mv foregather/node_modules .
 - rm -fr foregather
-# - mkdir -p android/app/src/main/assets
-# - ./node_modules/.bin/react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/
-# - cd android && ./gradlew assembleRelease
+- npm install react-native-navigation
+# - sbt android:dev
+# - node_modules/.bin/react-native run-android
