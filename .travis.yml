@@ -4,7 +4,6 @@ before_install:
 - node --version
 install:
 - npm install
-- ./node_modules/.bin/react-native init foregather
 android:
   components:
   - build-tools-23.0.1
@@ -14,11 +13,5 @@ android:
   - extra-google-m2repository
   - addon-google_apis-google-16
 script: 
-- rm -fr node_modules
-- mv foregather/android .
-- mv foregather/ios .
-- mv foregather/node_modules .
-- rm -fr foregather
-- npm install react-native-navigation
 # - sbt android:dev
 # - node_modules/.bin/react-native run-android
