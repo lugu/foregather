@@ -51,17 +51,19 @@ object QuizScreen {
       flex := 1
     )
     val bottom = style(
-      flex := 2,
+      flex := 4,
       flexDirection := "row",
-      justifyContent := "space-around",
+      justifyContent := "space-between",
       alignItems := "center",
       flexWrap := "wrap"
     )
     val answer = style(
-      flex := 1,
       backgroundColor := "skyblue",
-      width := 100,
-      height := 100
+      margin := 20,
+      width := 125,
+      height := 125,
+      alignItems := "center",
+      justifyContent := "center"
     )
   }
 }
