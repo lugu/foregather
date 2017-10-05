@@ -1,4 +1,4 @@
-package foregather.eu.components
+package eu.foregather.components
 
 import sri.navigation._
 import sri.universal.components._
@@ -7,8 +7,8 @@ import sri.universal.styles.InlineStyleSheetUniversal
 import scala.scalajs.js.Object
 import scala.scalajs.js
 
-import foregather.eu.model.QCM
-import foregather.eu.model.DataSet
+import eu.foregather.model.QCM
+import eu.foregather.model.DataSet
 
 
 class QuizScreen
@@ -19,18 +19,14 @@ class QuizScreen
       View(style = styles.top)(TextC("Progress")),
       View(style = styles.middle)(TextC(params.get.qcm.question)),
       View(style = styles.bottom)(
-        View(style = styles.columnAnswers)(
-          TouchableHighlight( style = styles.answer,
-            onPress = () => navigation.navigate[HomeScreen])(params.get.qcm.answers._1),
-          TouchableHighlight( style = styles.answer,
-            onPress = () => navigation.navigate[HomeScreen])(params.get.qcm.answers._3)
-        ),
-        View(style = styles.columnAnswers)(
-          TouchableHighlight( style = styles.answer,
-            onPress = () => navigation.navigate[HomeScreen])(params.get.qcm.answers._2),
-          TouchableHighlight( style = styles.answer,
-            onPress = () => navigation.navigate[HomeScreen])(params.get.qcm.answers._4)
-        )
+        TouchableHighlight( style = styles.answer,
+          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._1)),
+        TouchableHighlight( style = styles.answer,
+          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._2)),
+        TouchableHighlight( style = styles.answer,
+          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._3)),
+        TouchableHighlight( style = styles.answer,
+          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._4))
       )
     )
   }
@@ -56,16 +52,16 @@ object QuizScreen {
     )
     val bottom = style(
       flex := 2,
-      flexDirection := "row"
-    )
-    val columnAnswers = style(
-      flex := 1,
+      flexDirection := "row",
       justifyContent := "space-around",
-      alignItems := "center"
+      alignItems := "center",
+      flexWrap := "wrap"
     )
     val answer = style(
       flex := 1,
-      backgroundColor := "skyblue"
+      backgroundColor := "skyblue",
+      width := 100,
+      height := 100
     )
   }
 }

@@ -1,4 +1,4 @@
-package foregather.eu.model
+package eu.foregather.model
 
 import Difficulty._
 import Answers.Answers

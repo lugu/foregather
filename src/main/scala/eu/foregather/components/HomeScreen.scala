@@ -1,33 +1,33 @@
-package foregather.eu.components
+package eu.foregather.components
 
 import sri.macros.{OptDefault => NoValue, OptionalParam => U}
 import sri.navigation._
 import sri.universal.components._
 import sri.universal.styles.InlineStyleSheetUniversal
-import foregather.eu.components.QuizScreen.Params
+import eu.foregather.components.QuizScreen.Params
 
 import scala.scalajs.js
 
-import foregather.eu.model.QCM
-import foregather.eu.model.DataSet
+import eu.foregather.model.QCM
+import eu.foregather.model.DataSet
 
 class HomeScreen extends NavigationScreenComponentNoPS {
   import HomeScreen._
   def render() = {
     View(style = styles.container)(
         View(style = styles.top)(
-            View(style = styles.progress)(),
+            View(style = styles.progress)(TextC("Progress")),
             View(style = styles.rightBlock)(
-                View(style = styles.character)(),
-                View(style = styles.score)()
+                View(style = styles.character)(TextC("Character")),
+                View(style = styles.score)(TextC("Score"))
             )
         ),
         View(style = styles.bottom)(
-            View(style = styles.history)(),
+            View(style = styles.history)(TextC("history")),
             TouchableHighlight(
               style = styles.run,
               onPress = () => navigation.navigate[QuizScreen]( new Params { override val qcm: QCM = DataSet.next })
-              )("Quiz")
+              )(TextC("Quiz"))
         )
     )
   }
@@ -50,10 +50,12 @@ object HomeScreen {
       flex := 1
     )
     val progress = style(
-      flex := 1
+      flex := 1,
+      backgroundColor := "yellow"
     )
     val history = style(
-      flex := 1
+      flex := 1,
+      backgroundColor := "red"
     )
     val rightBlock = style(
       flex := 1
@@ -62,7 +64,8 @@ object HomeScreen {
       flex := 1
     )
     val score = style(
-      flex := 1
+      flex := 1,
+      backgroundColor := "blue"
     )
     val run = style(
       flex := 1

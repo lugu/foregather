@@ -1,4 +1,4 @@
-package foregather.eu.components
+package eu.foregather.components
 
 import sri.universal.styles.InlineStyleSheetUniversal
 

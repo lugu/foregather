@@ -1,4 +1,4 @@
-package foregather.eu
+package eu.foregather
 import sri.navigation._
 import sri.navigation.navigators._
 import sri.platform.SriPlatform

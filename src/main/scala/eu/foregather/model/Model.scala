@@ -1,4 +1,4 @@
-package foregather.eu.model
+package eu.foregather.model
 
 object Difficulty extends Enumeration {
     type Difficulty = Value

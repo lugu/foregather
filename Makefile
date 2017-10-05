@@ -1,7 +1,7 @@
 
 dev:
 	npm install
-	sbt android:dev
 	npm start
-	node_modules/.bin/react-native run-android
+	sbt android:dev
+	react-native run-android
 
