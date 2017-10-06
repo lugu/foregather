@@ -45,6 +45,7 @@ object QuizScreen {
       flex := 1
     )
     val top = style(
+      backgroundColor := GlobalStyles.blueGris,
       flex := 1
     )
     val middle = style(
@@ -58,7 +59,7 @@ object QuizScreen {
       flexWrap := "wrap"
     )
     val answer = style(
-      backgroundColor := "skyblue",
+      backgroundColor := GlobalStyles.blueLumineux,
       margin := 20,
       width := 125,
       height := 125,

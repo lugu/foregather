@@ -51,24 +51,26 @@ object HomeScreen {
     )
     val progress = style(
       flex := 1,
-      backgroundColor := "yellow"
+      backgroundColor := GlobalStyles.blueGris
     )
     val history = style(
       flex := 1,
-      backgroundColor := "red"
+      backgroundColor := GlobalStyles.blanc
     )
     val rightBlock = style(
       flex := 1
     )
     val character = style(
-      flex := 1
+      flex := 1,
+      backgroundColor := GlobalStyles.blanc
     )
     val score = style(
       flex := 1,
-      backgroundColor := "blue"
+      backgroundColor := GlobalStyles.blueSobre
     )
     val run = style(
-      flex := 1
+      flex := 1,
+      backgroundColor := GlobalStyles.blueProfond
     )
   }
 }
