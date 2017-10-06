@@ -16,7 +16,7 @@ class QuizScreen
     extends NavigationScreenComponent[QuizScreen.Params, QuizScreen.State] {
   import QuizScreen._
 
-  initialState(State(qcm = DataSet.next, score = 100))
+  initialState(State(qcm = DataSet.next, score = 0))
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
@@ -33,7 +33,7 @@ class QuizScreen
 
   def render() = {
     View(style = styles.container)(
-      View(style = styles.top)(textElement(params.get.user.name)),
+      View(style = styles.top)(textElement(state.score.toString)),
       View(style = styles.middle)(textElement(state.qcm.question)),
       View(style = styles.bottom)(
         answerElement(0),answerElement(1),answerElement(2),answerElement(3)
