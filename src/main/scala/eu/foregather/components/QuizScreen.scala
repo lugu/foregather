@@ -8,25 +8,33 @@ import scala.scalajs.js.Object
 import scala.scalajs.js
 
 import eu.foregather.model.QCM
+import eu.foregather.model.User
 import eu.foregather.model.DataSet
 
 
 class QuizScreen
-    extends NavigationScreenComponentP[QuizScreen.Params] {
+    extends NavigationScreenComponent[QuizScreen.Params, QuizScreen.State] {
   import QuizScreen._
+
+  initialState(State(qcm = DataSet.next, score = 100))
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
+  def chooseAnswer(i: Int) = () => {
+        if (state.qcm.correctAnswer == i) setState((state: State) => State(DataSet.next, state.score + 100))
+        else setState((state: State) => State(DataSet.next, state.score))
+        // navigation.navigate[HomeScreen])(textElement(state.qcm.answers(i)))
+  }
+
   def answerElement(i: Int) = 
-        TouchableHighlight( style = styles.answer,
-          onPress = () => navigation.navigate[HomeScreen])(textElement(params.get.qcm.answers(i)))
+        TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.qcm.answers(i)))
 
   def render() = {
     View(style = styles.container)(
-      View(style = styles.top)(textElement("Progress")),
-      View(style = styles.middle)(textElement(params.get.qcm.question)),
+      View(style = styles.top)(textElement(params.get.user.name)),
+      View(style = styles.middle)(textElement(state.qcm.question)),
       View(style = styles.bottom)(
         answerElement(0),answerElement(1),answerElement(2),answerElement(3)
       )
@@ -36,8 +44,10 @@ class QuizScreen
 
 object QuizScreen {
   trait Params extends Object {
-    val qcm: QCM
+    val user: User
   }
+
+  case class State(qcm: QCM, score: Int)
 
   object styles extends InlineStyleSheetUniversal {
 

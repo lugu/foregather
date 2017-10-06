@@ -16,7 +16,8 @@ package object components {
       )
     ),
     registerStackScreen[HomeScreen](navigationOptions = NavigationStackScreenOptions(title = "Foregather")),
-    registerStackScreen[QuizScreen](navigationOptionsDynamic = (props:NavigationScreenConfigProps[QuizScreen]) => NavigationStackScreenOptions(title = "Quiz"))
+    registerStackScreen[QuizScreen](navigationOptionsDynamic = 
+        (props:NavigationScreenConfigProps[QuizScreen]) => NavigationStackScreenOptions(title = "Quiz"))
   )
 
 }

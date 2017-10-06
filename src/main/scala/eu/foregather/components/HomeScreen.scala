@@ -4,11 +4,13 @@ import sri.macros.{OptDefault => NoValue, OptionalParam => U}
 import sri.navigation._
 import sri.universal.components._
 import sri.universal.styles.InlineStyleSheetUniversal
+import eu.foregather.components.QuizScreen.State
 import eu.foregather.components.QuizScreen.Params
 
 import scala.scalajs.js
 
 import eu.foregather.model.QCM
+import eu.foregather.model.User
 import eu.foregather.model.DataSet
 
 class HomeScreen extends NavigationScreenComponentNoPS {
@@ -31,8 +33,9 @@ class HomeScreen extends NavigationScreenComponentNoPS {
             View(style = styles.history)(textElement("history")),
             TouchableHighlight(
               style = styles.run,
-              onPress = () => navigation.navigate[QuizScreen]( new Params { override val qcm: QCM = DataSet.next })
-              )(textElement("Start Quiz !"))
+              onPress = () => navigation.navigate[QuizScreen](new Params {
+                override val user: User = new User("Joan", 100)
+              }))(textElement("Start Quiz !"))
         )
     )
   }
