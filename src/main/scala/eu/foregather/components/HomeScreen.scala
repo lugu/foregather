@@ -13,21 +13,26 @@ import eu.foregather.model.DataSet
 
 class HomeScreen extends NavigationScreenComponentNoPS {
   import HomeScreen._
+
+  def textElement(t: String) = View(style = GlobalStyles.textBlock)(
+    Text(style = GlobalStyles.defaultTextStyle)(t)
+  )
+
   def render() = {
     View(style = styles.container)(
         View(style = styles.top)(
-            View(style = styles.progress)(TextC("Progress")),
+            View(style = styles.progress)(textElement("Progress")),
             View(style = styles.rightBlock)(
-                View(style = styles.character)(TextC("Character")),
-                View(style = styles.score)(TextC("Score"))
+                View(style = styles.character)(textElement("Character")),
+                View(style = styles.score)(textElement("Score"))
             )
         ),
         View(style = styles.bottom)(
-            View(style = styles.history)(TextC("history")),
+            View(style = styles.history)(textElement("history")),
             TouchableHighlight(
               style = styles.run,
               onPress = () => navigation.navigate[QuizScreen]( new Params { override val qcm: QCM = DataSet.next })
-              )(TextC("Quiz"))
+              )(textElement("Start Quiz !"))
         )
     )
   }

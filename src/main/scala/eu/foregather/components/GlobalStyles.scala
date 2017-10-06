@@ -14,13 +14,18 @@ object GlobalStyles extends InlineStyleSheetUniversal {
   val blueProfond  = "#365580"
   val blanc        = "#ffffff"
   val noir         = "#000000"
-
-  val wholeContainer = style(flex := 1, padding := 20)
-
-  val defaultHeader = colorStyle(blueFonce)
-
   def colorStyle(c: String) = style(backgroundColor := c)
 
-  val defaultCardStyle = style(backgroundColor := "rgb(243, 241, 241)")
+  val defaultFontFamily = "sans-serif-thin"
+  val defaultTextStyle = style(
+      fontFamily := defaultFontFamily,
+      fontSize := 20
+  )
 
+  val defaultHeader = style( backgroundColor := blueFonce)
+
+  val textBlock = style(
+      alignItems := "center",
+      justifyContent := "center",
+      flex := 1)
 }

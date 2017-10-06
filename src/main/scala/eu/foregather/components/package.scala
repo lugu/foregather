@@ -9,7 +9,6 @@ package object components {
 
   val root = StackNavigator(
     StackNavigatorConfig(
-      cardStyle = GlobalStyles.defaultCardStyle,
       navigationOptions = NavigationStackScreenOptions(
         headerTintColor = "white",
         headerBackTitle = "Back",

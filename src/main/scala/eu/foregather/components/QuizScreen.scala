@@ -14,19 +14,21 @@ import eu.foregather.model.DataSet
 class QuizScreen
     extends NavigationScreenComponentP[QuizScreen.Params] {
   import QuizScreen._
+
+  def textElement(t: String) = View(style = GlobalStyles.textBlock)(
+    Text(style = GlobalStyles.defaultTextStyle)(t)
+  )
+
+  def answerElement(i: Int) = 
+        TouchableHighlight( style = styles.answer,
+          onPress = () => navigation.navigate[HomeScreen])(textElement(params.get.qcm.answers(i)))
+
   def render() = {
     View(style = styles.container)(
-      View(style = styles.top)(TextC("Progress")),
-      View(style = styles.middle)(TextC(params.get.qcm.question)),
+      View(style = styles.top)(textElement("Progress")),
+      View(style = styles.middle)(textElement(params.get.qcm.question)),
       View(style = styles.bottom)(
-        TouchableHighlight( style = styles.answer,
-          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._1)),
-        TouchableHighlight( style = styles.answer,
-          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._2)),
-        TouchableHighlight( style = styles.answer,
-          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._3)),
-        TouchableHighlight( style = styles.answer,
-          onPress = () => navigation.navigate[HomeScreen])(TextC(params.get.qcm.answers._4))
+        answerElement(0),answerElement(1),answerElement(2),answerElement(3)
       )
     )
   }

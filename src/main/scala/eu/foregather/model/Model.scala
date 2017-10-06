@@ -6,7 +6,7 @@ object Difficulty extends Enumeration {
 }
 
 object Answers {
-    type Answers = Tuple4[String, String, String, String]
+    type Answers = List[String]
 }
 
 import Difficulty._
