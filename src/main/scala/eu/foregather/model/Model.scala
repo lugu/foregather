@@ -51,12 +51,3 @@ object Circuit {
   def registerWatcher(w: ProfileWatcher) = { watcher = w :: watcher }
   def unregisterWatcher(w: ProfileWatcher) = { watcher = watcher.filterNot(a => a == w) }
 }
-
-object QuizUI {
-    def run(quiz: Quiz, getAnswer: (Int) => Int) = {
-        println("should display the UI here")
-        println("fake user response to be 1")
-        val correctAnswer = getAnswer(1)
-        println("should have answer " + correctAnswer)
-    }
-}
