@@ -11,12 +11,26 @@ import scala.scalajs.js
 import eu.foregather.model.Quiz
 import eu.foregather.model.Profile
 import eu.foregather.model.Circuit
+import eu.foregather.model.ProfileWatcher
 import eu.foregather.data.DataSet
 
 class HomeScreen extends NavigationScreenComponentS[HomeScreen.State] {
   import HomeScreen._
 
   initialState(State(Circuit.initialState))
+
+  val watcher = new ProfileWatcher {
+    def onProfileChange(p: Profile) = setState((s: State) => State(p))
+  }
+
+  override def componentWillMount() = {
+    Circuit.registerWatcher(watcher)
+    setState((s: State) => State(Circuit.initialState))
+  }
+
+  override def componentWillUnmount() = {
+    Circuit.unregisterWatcher(watcher)
+  }
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)

@@ -32,12 +32,24 @@ trait Action
 case object CorrectAnswer extends Action
 case object WrongAnswer extends Action
 
+trait ProfileWatcher {
+  def onProfileChange(p: Profile)
+}
+
 object Circuit {
-  def initialState = Profile("Tom", 0, History(List()))
+  var watcher: List[ProfileWatcher] = List()
+  var profile = Profile("Tom", 0, History(List()))
+  def initialState = profile
   val actionHandler = (action: Action, model: Profile) => action match {
-    case (CorrectAnswer) => model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1))
-    case (WrongAnswer) => model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1))
+    case (CorrectAnswer) => setState(model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1)))
+    case (WrongAnswer) => setState(model.copy(score = model.score, history = model.history.updateWith(Today.is, 1)))
   }
+  def setState(p: Profile) = {
+    profile = p
+    watcher.foreach { w => w.onProfileChange(p) }
+  }
+  def registerWatcher(w: ProfileWatcher) = { watcher = w :: watcher }
+  def unregisterWatcher(w: ProfileWatcher) = { watcher = watcher.filterNot(a => a == w) }
 }
 
 object QuizUI {

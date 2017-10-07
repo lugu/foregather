@@ -10,6 +10,7 @@ import scala.scalajs.js
 import eu.foregather.model.Quiz
 import eu.foregather.model.Profile
 import eu.foregather.model.Circuit
+import eu.foregather.model.ProfileWatcher
 import eu.foregather.model.CorrectAnswer
 import eu.foregather.model.WrongAnswer
 import eu.foregather.data.DataSet
@@ -21,16 +22,29 @@ class QuizScreen
 
   initialState(State(quiz = DataSet.next, Circuit.initialState))
 
+  val watcher = new ProfileWatcher {
+    def onProfileChange(p: Profile) = setState((s: State) => State(state.quiz, p)) 
+  }
+
+  override def componentWillMount() = {
+    Circuit.registerWatcher(watcher)
+    setState((s: State) => State(state.quiz, Circuit.initialState))
+  }
+
+  override def componentWillUnmount() = {
+    Circuit.unregisterWatcher(watcher)
+  }
+
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
   def chooseAnswer(i: Int) = () => {
-    if (state.quiz.correctAnswer == i) setState((s: State) => 
-      State(DataSet.next, Circuit.actionHandler(CorrectAnswer, s.profile)))
-    else setState((s: State) => 
-      State(DataSet.next, Circuit.actionHandler(WrongAnswer, s.profile)))
+    if (state.quiz.correctAnswer == i) Circuit.actionHandler(CorrectAnswer, state.profile)
+    else  Circuit.actionHandler(WrongAnswer, state.profile)
+    setState((s: State) => State(DataSet.next, s.profile))
   }
+
 
   def answerElement(i: Int) = 
         TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.quiz.answers(i)))
