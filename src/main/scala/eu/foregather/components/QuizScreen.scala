@@ -9,7 +9,7 @@ import scala.scalajs.js
 
 import eu.foregather.model.QCM
 import eu.foregather.model.User
-import eu.foregather.model.DataSet
+import eu.foregather.data.DataSet
 
 
 class QuizScreen

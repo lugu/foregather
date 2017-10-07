@@ -1,7 +1,9 @@
-package eu.foregather.model
+package eu.foregather.data
 
-import Difficulty._
-import Answers.Answers
+import scala.util.Random
+
+import eu.foregather.model.Difficulty._
+import eu.foregather.model.QCM
 
 object DataSet {
     def default: QCM = QCM("Default question", List("Answer A", "Answer B", "Answer C", "Answer D"), 0, Easy)
@@ -11,9 +13,10 @@ object DataSet {
         QCM("Question 3", List("Answer A", "Answer B", "Answer C", "Answer D"), 2, Easy),
         QCM("Question 4", List("Answer A", "Answer B", "Answer C", "Answer D"), 3, Easy))
 
+    val rnd = new Random
     def next: QCM = {
-        import scala.util.Random
-        val rnd = new Random
-        test.toVector(rnd.nextInt(test.size))
+        
+        if (rnd.nextBoolean()) WordListLogistic.quiz(rnd)
+        else WordListBusinessEnglish.quiz(rnd)
     }
 }

@@ -5,18 +5,13 @@ object Difficulty extends Enumeration {
     val Easy, Medium, Hard = Value
 }
 
-object Answers {
-    type Answers = List[String]
-}
-
 import Difficulty._
-import Answers.Answers
 
 case class Quiz(qcms: Set[QCM])
 
 case class QCM(
     question: String,
-    answers: Answers,
+    answers: List[String],
     correctAnswer: Int,
     difficulty: Difficulty) {
     def withoutAnswer = QCM(question, answers, -1, difficulty)
