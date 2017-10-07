@@ -1,7 +1,7 @@
 package eu.foregather.data
 
 import eu.foregather.model.Difficulty._
-import eu.foregather.model.QCM
+import eu.foregather.model.Quiz
 import scala.util.Random
 
 trait EnglishFrenchList {
@@ -14,7 +14,7 @@ trait EnglishFrenchList {
   def randomEnglish(rnd: Random): String = english(randomIndex(rnd))
   def randomFrench(rnd: Random): String = french(randomIndex(rnd))
 
-  def quiz(rnd: Random): QCM = {
+  def quiz(rnd: Random): Quiz = {
 
     val index = rnd.nextInt(size)
     if (rnd.nextBoolean()) {
@@ -23,14 +23,14 @@ trait EnglishFrenchList {
       val answers: List[String] = randomEnglish(rnd) :: randomEnglish(rnd) :: randomEnglish(rnd) :: List()
       val correctAnswer = rnd.nextInt(4)
       val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(english(index)) ::: answers.drop(correctAnswer)
-      return QCM(question, randomAnswers, correctAnswer, Easy)
+      return Quiz(question, randomAnswers, correctAnswer, Easy)
     } else {
       // english question
       val question = english(index)
       val answers: List[String] = randomFrench(rnd) :: randomFrench(rnd) :: randomFrench(rnd) :: List()
       val correctAnswer = rnd.nextInt(4)
       val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(french(index)) ::: answers.drop(correctAnswer)
-      return QCM(question, randomAnswers, correctAnswer, Easy)
+      return Quiz(question, randomAnswers, correctAnswer, Easy)
     }
   }
 }

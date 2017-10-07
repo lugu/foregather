@@ -8,7 +8,7 @@ import eu.foregather.components.QuizScreen.Params
 
 import scala.scalajs.js
 
-import eu.foregather.model.QCM
+import eu.foregather.model.Quiz
 import eu.foregather.model.Profile
 import eu.foregather.model.Circuit
 import eu.foregather.data.DataSet

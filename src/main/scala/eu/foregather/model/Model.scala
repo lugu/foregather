@@ -7,14 +7,12 @@ object Difficulty extends Enumeration {
 
 import Difficulty._
 
-case class Quiz(qcms: Set[QCM])
-
-case class QCM(
+case class Quiz(
     question: String,
     answers: List[String],
     correctAnswer: Int,
     difficulty: Difficulty) {
-    def withoutAnswer = QCM(question, answers, -1, difficulty)
+    def withoutAnswer = Quiz(question, answers, -1, difficulty)
 }
 
 case object Today {
@@ -43,7 +41,7 @@ object Circuit {
 }
 
 object QuizUI {
-    def run(qcm: QCM, getAnswer: (Int) => Int) = {
+    def run(quiz: Quiz, getAnswer: (Int) => Int) = {
         println("should display the UI here")
         println("fake user response to be 1")
         val correctAnswer = getAnswer(1)

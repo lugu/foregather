@@ -7,7 +7,7 @@ import sri.universal.styles.InlineStyleSheetUniversal
 import scala.scalajs.js.Object
 import scala.scalajs.js
 
-import eu.foregather.model.QCM
+import eu.foregather.model.Quiz
 import eu.foregather.model.Profile
 import eu.foregather.model.Circuit
 import eu.foregather.model.CorrectAnswer
@@ -19,26 +19,26 @@ class QuizScreen
     extends NavigationScreenComponent[QuizScreen.Params, QuizScreen.State] {
   import QuizScreen._
 
-  initialState(State(qcm = DataSet.next, Circuit.initialState))
+  initialState(State(quiz = DataSet.next, Circuit.initialState))
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
   def chooseAnswer(i: Int) = () => {
-    if (state.qcm.correctAnswer == i) setState((s: State) => 
+    if (state.quiz.correctAnswer == i) setState((s: State) => 
       State(DataSet.next, Circuit.actionHandler(CorrectAnswer, s.profile)))
     else setState((s: State) => 
       State(DataSet.next, Circuit.actionHandler(WrongAnswer, s.profile)))
   }
 
   def answerElement(i: Int) = 
-        TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.qcm.answers(i)))
+        TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.quiz.answers(i)))
 
   def render() = {
     View(style = styles.container)(
       View(style = styles.top)(textElement(state.profile.score.toString)),
-      View(style = styles.middle)(textElement(state.qcm.question)),
+      View(style = styles.middle)(textElement(state.quiz.question)),
       View(style = styles.bottom)(
         answerElement(0),answerElement(1),answerElement(2),answerElement(3)
       )
@@ -50,7 +50,7 @@ object QuizScreen {
   trait Params extends Object {
   }
 
-  case class State(qcm: QCM, profile: Profile)
+  case class State(quiz: Quiz, profile: Profile)
 
   object styles extends InlineStyleSheetUniversal {
 
