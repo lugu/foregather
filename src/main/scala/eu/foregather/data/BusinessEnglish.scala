@@ -211,7 +211,7 @@ object WordListBusinessEnglish extends EnglishFrenchList {
     "the rise", "la hausse, une augmentation",
     "to rise", "monter, augmenter, se lever",
     "the risk", "le risque, le péril",
-    "a salary", "une salaire",
+    "a salary", "un salaire",
     "sales", "soldes",
     "to ship", "expédier",
     "when the sales are on", "au moment des soldes",

@@ -22,7 +22,7 @@ trait EnglishFrenchList {
       val question = french(index)
       val answers: List[String] = randomEnglish(rnd) :: randomEnglish(rnd) :: randomEnglish(rnd) :: List()
       val correctAnswer = rnd.nextInt(4)
-      val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(french(index)) ::: answers.drop(correctAnswer)
+      val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(english(index)) ::: answers.drop(correctAnswer)
       return QCM(question, randomAnswers, correctAnswer, Easy)
     } else {
       // english question

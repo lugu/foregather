@@ -122,7 +122,7 @@ object WordListLogistic extends EnglishFrenchList {
     "Load","Lot",
     "Warhouse","Magasin",
     "Manufacturing Ressource Planning – MRP II","Management des Ressources de Production - MRP II",
-    "Management","Management par Catégories Category",
+    "Category Management","Management par Catégories",
     "Handling","Manutention",
     "Parcel services","Messagerie",
     "Means","Moyens",
