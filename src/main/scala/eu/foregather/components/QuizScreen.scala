@@ -8,7 +8,10 @@ import scala.scalajs.js.Object
 import scala.scalajs.js
 
 import eu.foregather.model.QCM
-import eu.foregather.model.User
+import eu.foregather.model.Profile
+import eu.foregather.model.Circuit
+import eu.foregather.model.CorrectAnswer
+import eu.foregather.model.WrongAnswer
 import eu.foregather.data.DataSet
 
 
@@ -16,16 +19,17 @@ class QuizScreen
     extends NavigationScreenComponent[QuizScreen.Params, QuizScreen.State] {
   import QuizScreen._
 
-  initialState(State(qcm = DataSet.next, score = 0))
+  initialState(State(qcm = DataSet.next, Circuit.initialState))
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
   def chooseAnswer(i: Int) = () => {
-        if (state.qcm.correctAnswer == i) setState((state: State) => State(DataSet.next, state.score + 100))
-        else setState((state: State) => State(DataSet.next, state.score))
-        // navigation.navigate[HomeScreen])(textElement(state.qcm.answers(i)))
+    if (state.qcm.correctAnswer == i) setState((s: State) => 
+      State(DataSet.next, Circuit.actionHandler(CorrectAnswer, s.profile)))
+    else setState((s: State) => 
+      State(DataSet.next, Circuit.actionHandler(WrongAnswer, s.profile)))
   }
 
   def answerElement(i: Int) = 
@@ -33,7 +37,7 @@ class QuizScreen
 
   def render() = {
     View(style = styles.container)(
-      View(style = styles.top)(textElement(state.score.toString)),
+      View(style = styles.top)(textElement(state.profile.score.toString)),
       View(style = styles.middle)(textElement(state.qcm.question)),
       View(style = styles.bottom)(
         answerElement(0),answerElement(1),answerElement(2),answerElement(3)
@@ -44,10 +48,9 @@ class QuizScreen
 
 object QuizScreen {
   trait Params extends Object {
-    val user: User
   }
 
-  case class State(qcm: QCM, score: Int)
+  case class State(qcm: QCM, profile: Profile)
 
   object styles extends InlineStyleSheetUniversal {
 

@@ -4,17 +4,19 @@ import sri.macros.{OptDefault => NoValue, OptionalParam => U}
 import sri.navigation._
 import sri.universal.components._
 import sri.universal.styles.InlineStyleSheetUniversal
-import eu.foregather.components.QuizScreen.State
 import eu.foregather.components.QuizScreen.Params
 
 import scala.scalajs.js
 
 import eu.foregather.model.QCM
-import eu.foregather.model.User
+import eu.foregather.model.Profile
+import eu.foregather.model.Circuit
 import eu.foregather.data.DataSet
 
-class HomeScreen extends NavigationScreenComponentNoPS {
+class HomeScreen extends NavigationScreenComponentS[HomeScreen.State] {
   import HomeScreen._
+
+  initialState(State(Circuit.initialState))
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
@@ -25,8 +27,8 @@ class HomeScreen extends NavigationScreenComponentNoPS {
         View(style = styles.top)(
             View(style = styles.progress)(textElement("Progress")),
             View(style = styles.rightBlock)(
-                View(style = styles.character)(textElement("Character")),
-                View(style = styles.score)(textElement("Score"))
+                View(style = styles.character)(textElement("Character " + state.profile.name)),
+                View(style = styles.score)(textElement("Score: " + state.profile.score.toString))
             )
         ),
         View(style = styles.bottom)(
@@ -34,7 +36,6 @@ class HomeScreen extends NavigationScreenComponentNoPS {
             TouchableHighlight(
               style = styles.run,
               onPress = () => navigation.navigate[QuizScreen](new Params {
-                override val user: User = new User("Joan", 100)
               }))(textElement("Start Quiz !"))
         )
     )
@@ -42,6 +43,8 @@ class HomeScreen extends NavigationScreenComponentNoPS {
 }
 
 object HomeScreen {
+
+  case class State(profile: Profile)
 
   object styles extends InlineStyleSheetUniversal {
 

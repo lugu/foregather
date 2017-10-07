@@ -17,16 +17,29 @@ case class QCM(
     def withoutAnswer = QCM(question, answers, -1, difficulty)
 }
 
-class User(val name: String, private var score: Int) {
-    def level: Int = score / 1000
-    def play(qcm: QCM) = {
-        QuizUI.run(qcm.withoutAnswer, (answer: Int) => {
-            if (qcm.correctAnswer == answer) {
-                score += 100
-            }
-            qcm.correctAnswer 
-        });
-    }
+case object Today {
+  // import java.time.LocalDate
+  // import java.time.temporal.ChronoUnit
+  // val epoch = LocalDate.ofEpochDay(0);
+  def is = 0 // ChronoUnit.DAYS.between(epoch, LocalDate.now())
+}
+
+case class History(activities: List[Activity]) {
+  def updateWith(d: Long, a: Int) = History(Activity(d, a) :: activities)
+}
+case class Activity(day: Long, quizNb: Int)
+case class Profile(name: String, score: Int, history: History)
+
+trait Action
+case object CorrectAnswer extends Action
+case object WrongAnswer extends Action
+
+object Circuit {
+  def initialState = Profile("Tom", 0, History(List()))
+  val actionHandler = (action: Action, model: Profile) => action match {
+    case (CorrectAnswer) => model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1))
+    case (WrongAnswer) => model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1))
+  }
 }
 
 object QuizUI {
