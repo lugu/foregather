@@ -13,5 +13,5 @@ android:
   - extra-google-m2repository
   - addon-google_apis-google-16
 script: 
-# - sbt android:dev
+  - sbt android:dev
 # - node_modules/.bin/react-native run-android
