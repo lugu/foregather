@@ -23,9 +23,14 @@ case object Today {
 }
 
 case class History(activities: List[Activity]) {
-  def updateWith(d: Long, a: Int) = History(Activity(d, a) :: activities)
+  def updateWith(d: Int, a: Int) = History(Activity(d, a) :: activities)
+  def string: String = activities.mkString(",")
 }
-case class Activity(day: Long, quizNb: Int)
+
+case class Activity(day: Int, quizNb: Int) {
+  def string: String = List(day, quizNb).mkString("-")
+}
+
 case class Profile(name: String, score: Int, history: History)
 
 trait Action
@@ -38,7 +43,8 @@ trait ProfileWatcher {
 
 object Circuit {
   var watcher: List[ProfileWatcher] = List()
-  var profile = Profile("Tom", 0, History(List()))
+  ProfileStorage.retrive((p: Profile) => setState(p))
+  var profile = Profile("Unknown", 0, History(List()))
   def initialState = profile
   val actionHandler = (action: Action, model: Profile) => action match {
     case (CorrectAnswer) => setState(model.copy(score = model.score + 100, history = model.history.updateWith(Today.is, 1)))
@@ -47,7 +53,9 @@ object Circuit {
   def setState(p: Profile) = {
     profile = p
     watcher.foreach { w => w.onProfileChange(p) }
+    ProfileStorage.store(p)
   }
   def registerWatcher(w: ProfileWatcher) = { watcher = w :: watcher }
   def unregisterWatcher(w: ProfileWatcher) = { watcher = watcher.filterNot(a => a == w) }
 }
+
