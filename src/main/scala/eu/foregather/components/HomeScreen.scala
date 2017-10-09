@@ -46,7 +46,7 @@ class HomeScreen extends NavigationScreenComponentS[HomeScreen.State] {
             )
         ),
         View(style = styles.bottom)(
-            View(style = styles.history)(textElement("history")),
+            HistoryChart(),
             TouchableHighlight(
               style = styles.run,
               onPress = () => navigation.navigate[QuizScreen](new Params {
@@ -77,10 +77,6 @@ object HomeScreen {
     val progress = style(
       flex := 1,
       backgroundColor := GlobalStyles.blueGris
-    )
-    val history = style(
-      flex := 1,
-      backgroundColor := GlobalStyles.blanc
     )
     val rightBlock = style(
       flex := 1

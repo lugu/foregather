@@ -28,4 +28,6 @@ object GlobalStyles extends InlineStyleSheetUniversal {
       alignItems := "center",
       justifyContent := "center",
       flex := 1)
+
 }
+
