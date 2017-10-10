@@ -10,6 +10,7 @@ import eu.foregather.model.History
 import eu.foregather.model.Activity
 import eu.foregather.model.Circuit
 import eu.foregather.model.Profile
+import eu.foregather.model.Today
 import eu.foregather.model.ProfileWatcher
 
 class HistoryChart extends ComponentS[HistoryChart.State] {
@@ -30,11 +31,28 @@ class HistoryChart extends ComponentS[HistoryChart.State] {
     Circuit.unregisterWatcher(watcher)
   }
 
-  def bar(i: Int) = View(style = Styles.bar)()
-  def render() = {
+  def normalizeQuizNb(i: Int) = if (i < 0) 0 else if (i > 100) 100 else i
+  def bar(i: Int): ReactNode = {
+    import dsl._
+    View(style = Styles.barContainer)(
+      View(style = style(flex := (100 - i)))(),
+      View(style = style(flex := i, backgroundColor := GlobalStyles.blueFonce))())
+  }
 
-    val columns = state.history.activities.map((a: Activity) => bar(a.quizNb))
-    View(style = Styles.historyChart)(columns: _*)
+  def last30days(h: History) = {
+    val since = Today.is - 30
+    (for (i <- 1 to 30) yield Activity(since + i, 0)).foldLeft(
+        h.since(since).sorted
+        )((h: History, a: Activity) => h.updateWith(a.day, a.quizNb))
+  }
+  def columnSpace: ReactNode = View(style = Styles.barSpace)()
+  def column(a: Activity): ReactNode = bar(normalizeQuizNb(a.quizNb))
+  def columns(h: History): List[ReactNode] =
+    h.activities.flatMap((a: Activity) => List(column(a), columnSpace))
+
+  def render() = {
+    val c = columnSpace :: columns(last30days(state.history))
+    View(style = Styles.historyChart)(c: _*)
   }
 
   def textElement(t: String) = View(style = GlobalStyles.textBlock)(
@@ -55,6 +73,14 @@ object HistoryChart extends InlineStyleSheetUniversal {
     val bar = style(
       flex := 1,
       backgroundColor := GlobalStyles.noir
+    )
+
+    val barSpace = style(
+      flex := 1
+    )
+    val barContainer = style(
+      flex := 2,
+      flexDirection := "column"
     )
 
     val historyChart = style(

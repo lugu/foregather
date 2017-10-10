@@ -32,6 +32,8 @@ case class History(activities: List[Activity]) {
       case None => History(Activity(d, q) :: activities)
     }
   }
+  def since(since: Int) = History(activities.filter(since < _.day))
+  def sorted = History(activities.sortBy(_.day))
 }
 
 case class Activity(day: Int, quizNb: Int) {
