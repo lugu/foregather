@@ -1,6 +1,8 @@
 package eu.foregather.components
 
 import sri.universal.styles.InlineStyleSheetUniversal
+import sri.platform.SriPlatform
+
 
 object GlobalStyles extends InlineStyleSheetUniversal {
 
@@ -16,7 +18,7 @@ object GlobalStyles extends InlineStyleSheetUniversal {
   val noir         = "#000000"
   def colorStyle(c: String) = style(backgroundColor := c)
 
-  val defaultFontFamily = "sans-serif-thin"
+  val defaultFontFamily = if (SriPlatform.isIOS) "HelveticaNeue-Thin" else "sans-serif-thin"
   val defaultTextStyle = style(
       fontFamily := defaultFontFamily,
       fontSize := 20
