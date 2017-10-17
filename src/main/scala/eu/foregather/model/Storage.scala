@@ -1,9 +1,10 @@
 package eu.foregather.model
 
-import sri.universal.apis.AsyncStorage
+import scala.collection.BitSet
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.util.{Success, Failure}
-import scala.concurrent.ExecutionContext.Implicits.global
+import sri.universal.apis.AsyncStorage
 
 
 object ProfileStorage {
@@ -38,10 +39,22 @@ object ProfileStorage {
     }
   }
 
+  def progressFromString(s: String): Progress = {
+    try {
+      Progress(s.split(",").map(_.toInt).foldLeft(BitSet())(_ + _))
+    } catch {
+      case e: java.lang.NumberFormatException => {
+        println("Failed to parse progress: " + s)
+        Progress(BitSet())
+      }
+    }
+  }
+
   val nameKey = "1/Name"
   val scoreKey = "1/Score"
   val historyKey = "1/History"
-  val keys = js.Array(nameKey, scoreKey, historyKey)
+  val progressKey = "1/Progress"
+  val keys = js.Array(nameKey, scoreKey, historyKey, progressKey)
 
   def retrive(f: Profile => Unit) = {
     AsyncStorage.multiGet(keys).toFuture onComplete {
@@ -58,7 +71,8 @@ object ProfileStorage {
         val name = getOrElse(0, "No name")
         val score = scoreFromString(getOrElse(1, "0"))
         val history = historyFromString(getOrElse(2, ""))
-        f(Profile(name, score, history))
+        val progress = progressFromString(getOrElse(3, ""))
+        f(Profile(name, score, history, progress))
       }
       case Failure(t) => println("Failed to fetch preferences: " + t.getMessage)
     }
@@ -66,6 +80,7 @@ object ProfileStorage {
 
   def nameString(p: Profile) = p.name
   def scoreString(p: Profile) = p.score.toString
+  def progressString(p: Profile) = p.progress.bs.mkString(",")
   def historyString(p: Profile) = {
     p.history.activities.map{
       case (a: Activity) =>a.day.toString + "-" + a.quizNb.toString 
@@ -76,7 +91,8 @@ object ProfileStorage {
     AsyncStorage.multiSet(js.Array(
         js.Array(nameKey, nameString(p)),
         js.Array(scoreKey, scoreString(p)),
-        js.Array(historyKey, historyString(p))
+        js.Array(historyKey, historyString(p)),
+        js.Array(progressKey, progressString(p))
     ))
   }
 }

@@ -39,7 +39,7 @@ class HomeScreen extends NavigationScreenComponentS[HomeScreen.State] {
   def render() = {
     View(style = styles.container)(
         View(style = styles.top)(
-            View(style = styles.progress)(textElement("Progress")),
+            View(style = styles.progress)(textElement(state.profile.progress.percent.toString + " %")),
             View(style = styles.rightBlock)(
                 View(style = styles.character)(textElement("Character " + state.profile.name)),
                 View(style = styles.score)(textElement("Score: " + state.profile.score.toString))

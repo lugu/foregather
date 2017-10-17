@@ -1,5 +1,7 @@
 package eu.foregather.model
 
+import scala.collection.BitSet
+
 object Difficulty extends Enumeration {
     type Difficulty = Value
     val Easy, Medium, Hard = Value
@@ -36,10 +38,15 @@ case class History(activities: List[Activity]) {
   def sorted = History(activities.sortBy(_.day))
 }
 
-case class Activity(day: Int, quizNb: Int) {
+case class Progress(bs: BitSet) {
+  def percent = bs.size
+  def correct: Progress = Progress((bs - 0).map(_ - 1) + 99)
+  def incorrect: Progress = Progress((bs - 0).map(_ - 1))
 }
 
-case class Profile(name: String, score: Int, history: History)
+case class Activity(day: Int, quizNb: Int)
+
+case class Profile(name: String, score: Int, history: History, progress: Progress)
 
 trait Action
 case object CorrectAnswer extends Action
@@ -52,7 +59,7 @@ trait ProfileWatcher {
 object Circuit {
   var watcher: List[ProfileWatcher] = List()
 
-  var profile = Profile("Unknown", 0, History(List()))
+  var profile = Profile("Unknown", 0, History(List()), Progress(BitSet()))
   def initialState = profile
 
   val actionHandler = (action: Action, model: Profile) => {
@@ -61,7 +68,11 @@ object Circuit {
       case (CorrectAnswer) => model.score + 100
       case (WrongAnswer) => model.score
     }
-    setState(model.copy(score = score, history = history))
+    val progress = action match {
+      case (CorrectAnswer) => model.progress.correct
+      case (WrongAnswer) =>  model.progress.incorrect
+    }
+    setState(model.copy(score = score, history = history, progress = progress))
   }
 
   def setState(p: Profile) = {
