@@ -20,15 +20,15 @@ class QuizScreen
     extends NavigationScreenComponent[QuizScreen.Params, QuizScreen.State] {
   import QuizScreen._
 
-  initialState(State(quiz = DataSet.next, Circuit.initialState))
+  initialState(State(quiz = DataSet.next, Circuit.initialState, false))
 
   val watcher = new ProfileWatcher {
-    def onProfileChange(p: Profile) = setState((s: State) => State(state.quiz, p)) 
+    def onProfileChange(p: Profile) = setState((s: State) => State(s.quiz, p, s.done))
   }
 
   override def componentWillMount() = {
     Circuit.registerWatcher(watcher)
-    setState((s: State) => State(state.quiz, Circuit.initialState))
+    setState((s: State) => State(s.quiz, Circuit.initialState, s.done))
   }
 
   override def componentWillUnmount() = {
@@ -40,13 +40,27 @@ class QuizScreen
   )
 
   def chooseAnswer(i: Int) = () => {
+    // 1. update the button style
+    setState((s: State) => State(s.quiz, s.profile, true))
+
+    // 2. update the score
     if (state.quiz.correctAnswer == i) Circuit.actionHandler(CorrectAnswer, state.profile)
     else  Circuit.actionHandler(WrongAnswer, state.profile)
-    setState((s: State) => State(DataSet.next, s.profile))
+
+    // 3. move to the next quiz
+    import scala.scalajs.js.timers._
+    setTimeout(1000) {
+      setState((s: State) => State(DataSet.next, s.profile, false))
+    }
   }
 
+  def answerStyle(i: Int) = if (state.quiz.correctAnswer == i) styles.correctAnswer
+    else styles.incorrectAnswer
 
-  def answerElement(i: Int) = 
+  def answerElement(i: Int) =
+    if (state.done)
+        TouchableHighlight(style = answerStyle(i))(textElement(state.quiz.answers(i)))
+    else
         TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.quiz.answers(i)))
 
   def render() = {
@@ -64,7 +78,7 @@ object QuizScreen {
   trait Params extends Object {
   }
 
-  case class State(quiz: Quiz, profile: Profile)
+  case class State(quiz: Quiz, profile: Profile, done: Boolean)
 
   object styles extends InlineStyleSheetUniversal {
 
@@ -89,6 +103,22 @@ object QuizScreen {
     )
     val answer = style(
       backgroundColor := GlobalStyles.blueLumineux,
+      margin := 20,
+      width := 125,
+      height := 125,
+      alignItems := "center",
+      justifyContent := "center"
+    )
+    val incorrectAnswer = style(
+      backgroundColor := "red",
+      margin := 20,
+      width := 125,
+      height := 125,
+      alignItems := "center",
+      justifyContent := "center"
+    )
+    val correctAnswer = style(
+      backgroundColor := "green",
       margin := 20,
       width := 125,
       height := 125,
