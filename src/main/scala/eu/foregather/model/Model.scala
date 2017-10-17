@@ -61,7 +61,7 @@ object Circuit {
       case (CorrectAnswer) => model.score + 100
       case (WrongAnswer) => model.score
     }
-    setState(model.copy(score = score + 100, history = history))
+    setState(model.copy(score = score, history = history))
   }
 
   def setState(p: Profile) = {
