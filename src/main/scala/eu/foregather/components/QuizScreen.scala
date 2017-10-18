@@ -103,7 +103,7 @@ object QuizScreen {
     )
     val answer = style(
       backgroundColor := GlobalStyles.blueLumineux,
-      margin := 20,
+      margin := 10,
       width := 125,
       height := 125,
       alignItems := "center",
@@ -111,7 +111,7 @@ object QuizScreen {
     )
     val incorrectAnswer = style(
       backgroundColor := "red",
-      margin := 20,
+      margin := 10,
       width := 125,
       height := 125,
       alignItems := "center",
@@ -119,7 +119,7 @@ object QuizScreen {
     )
     val correctAnswer = style(
       backgroundColor := "green",
-      margin := 20,
+      margin := 10,
       width := 125,
       height := 125,
       alignItems := "center",
