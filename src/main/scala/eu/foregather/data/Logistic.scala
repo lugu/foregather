@@ -74,8 +74,6 @@ object WordListLogistic extends EnglishFrenchList {
     "Inventory write-off","Dévalorisation",
     "Distribution","Distribution physique",
     "Shipping documents","Documents d'expédition",
-    "Drive in","Drive in",
-    "Drive through","Drive through",
     "Duties","Droits de douane",
     "Inventory cycle","Durée de couverture",
     "Discrepancy","Ecart d'inventaire",
