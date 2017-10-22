@@ -2,6 +2,7 @@ package eu.foregather.components
 
 import sri.navigation._
 import sri.universal.components._
+import sri.universal.apis.Dimensions
 import sri.universal.styles.InlineStyleSheetUniversal
 
 import scala.scalajs.js.Object
@@ -39,37 +40,37 @@ class QuizScreen
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
-  def chooseAnswer(i: Int) = () => {
+  def actionAnswer(i: Int) = () => {
     // 1. update the button style
     setState((s: State) => State(s.quiz, s.profile, true))
 
     // 2. update the score
     if (state.quiz.correctAnswer == i) Circuit.actionHandler(CorrectAnswer, state.profile)
     else  Circuit.actionHandler(WrongAnswer, state.profile)
+  }
 
-    // 3. move to the next quiz
-    import scala.scalajs.js.timers._
-    setTimeout(1000) {
-      setState((s: State) => State(DataSet.next, s.profile, false))
-    }
+  def actionNext = () => {
+    setState((s: State) => State(DataSet.next, s.profile, false))
   }
 
   def answerStyle(i: Int) = if (state.quiz.correctAnswer == i) styles.correctAnswer
     else styles.incorrectAnswer
 
-  def answerElement(i: Int) =
-    if (state.done)
-        TouchableHighlight(style = answerStyle(i))(textElement(state.quiz.answers(i)))
-    else
-        TouchableHighlight(style = styles.answer, onPress = chooseAnswer(i))(textElement(state.quiz.answers(i)))
+  def answerView(i: Int) = {
+    val txt = textElement(state.quiz.answers(i))
+    val st = if (state.done) answerStyle(i) else styles.answer
+    val ac = if (state.done) actionNext else actionAnswer(i)
+    TouchableHighlight(style = st, onPress = ac)(txt)
+  }
 
   def render() = {
-    View(style = styles.container)(
+    val ac = if (state.done) actionNext else () => {}
+    TouchableOpacity(styles.overlay, onPress=ac)(
       View(style = styles.top)(textElement(state.profile.score.toString)),
       View(style = styles.middle)(textElement(state.quiz.question)),
       View(style = styles.bottom)(
-        answerElement(0),answerElement(1),answerElement(2),answerElement(3)
-      )
+        answerView(0),answerView(1),answerView(2),answerView(3)
+        )
     )
   }
 }
@@ -124,6 +125,12 @@ object QuizScreen {
       height := 125,
       alignItems := "center",
       justifyContent := "center"
+    )
+    val overlay = style(
+        flex := 1,
+        position := "absolute",
+        width := Dimensions.get("window").width,
+        height := Dimensions.get("window").height
     )
   }
 }
