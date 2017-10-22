@@ -148,7 +148,7 @@ object WordListLogistic extends EnglishFrenchList {
     "First Expired, First Out – FEFO","Premier périmé, premier sorti",
     "Picking","Préparation de commandes",
     "Pick to light","Préparation de commandes assistées par ordinateur - PCAO",
-    "Provider","Prestataire logistique  Logistics Service",
+    "Logistics Service Provider","Prestataire logistique",
     "Demand pull","Production à flux tiré",
     "Just-in time production – JIT","Production juste à temps– JAT",
     "Applications package","Progiciel",
