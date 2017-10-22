@@ -21,6 +21,7 @@ object GlobalStyles extends InlineStyleSheetUniversal {
   val defaultFontFamily = if (SriPlatform.isIOS) "HelveticaNeue-Thin" else "sans-serif-thin"
   val defaultTextStyle = style(
       fontFamily := defaultFontFamily,
+      textAlign := "center",
       fontSize := 20
   )
 
