@@ -63,9 +63,8 @@ class QuizScreen
     TouchableHighlight(style = st, onPress = ac)(txt)
   }
 
-  def render() = {
-    val ac = if (state.done) actionNext else () => {}
-    TouchableOpacity(styles.overlay, onPress=ac)(
+  def screenViews = {
+    View(styles.container)(
       View(style = styles.top)(textView(state.profile.score.toString)),
       View(style = styles.middle)(textView(state.quiz.question)),
       View(style = styles.bottom)(
@@ -73,6 +72,9 @@ class QuizScreen
         )
     )
   }
+
+  def render() = if (!state.done) screenViews
+    else TouchableOpacity(styles.container, onPress=actionNext)(screenViews)
 }
 
 object QuizScreen {
@@ -125,12 +127,6 @@ object QuizScreen {
       height := 125,
       alignItems := "center",
       justifyContent := "center"
-    )
-    val overlay = style(
-        flex := 1,
-        position := "absolute",
-        width := Dimensions.get("window").width,
-        height := Dimensions.get("window").height
     )
   }
 }
