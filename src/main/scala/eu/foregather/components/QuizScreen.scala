@@ -36,7 +36,7 @@ class QuizScreen
     Circuit.unregisterWatcher(watcher)
   }
 
-  def textElement(t: String) = View(style = GlobalStyles.textBlock)(
+  def textView(t: String) = View(style = GlobalStyles.textBlock)(
     Text(style = GlobalStyles.defaultTextStyle)(t)
   )
 
@@ -57,7 +57,7 @@ class QuizScreen
     else styles.incorrectAnswer
 
   def answerView(i: Int) = {
-    val txt = textElement(state.quiz.answers(i))
+    val txt = textView(state.quiz.answers(i))
     val st = if (state.done) answerStyle(i) else styles.answer
     val ac = if (state.done) actionNext else actionAnswer(i)
     TouchableHighlight(style = st, onPress = ac)(txt)
@@ -66,8 +66,8 @@ class QuizScreen
   def render() = {
     val ac = if (state.done) actionNext else () => {}
     TouchableOpacity(styles.overlay, onPress=ac)(
-      View(style = styles.top)(textElement(state.profile.score.toString)),
-      View(style = styles.middle)(textElement(state.quiz.question)),
+      View(style = styles.top)(textView(state.profile.score.toString)),
+      View(style = styles.middle)(textView(state.quiz.question)),
       View(style = styles.bottom)(
         answerView(0),answerView(1),answerView(2),answerView(3)
         )
