@@ -14,23 +14,25 @@ trait EnglishFrenchList {
   def randomEnglish(rnd: Random): String = english(randomIndex(rnd))
   def randomFrench(rnd: Random): String = french(randomIndex(rnd))
 
-  def quiz(rnd: Random): Quiz = {
-
-    val index = rnd.nextInt(size)
-    if (rnd.nextBoolean()) {
-      // french question
-      val question = french(index)
-      val answers: List[String] = randomEnglish(rnd) :: randomEnglish(rnd) :: randomEnglish(rnd) :: List()
-      val correctAnswer = rnd.nextInt(4)
-      val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(english(index)) ::: answers.drop(correctAnswer)
-      return Quiz(question, randomAnswers, correctAnswer, Easy)
-    } else {
-      // english question
-      val question = english(index)
-      val answers: List[String] = randomFrench(rnd) :: randomFrench(rnd) :: randomFrench(rnd) :: List()
-      val correctAnswer = rnd.nextInt(4)
-      val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(french(index)) ::: answers.drop(correctAnswer)
-      return Quiz(question, randomAnswers, correctAnswer, Easy)
+  def randomWords(not: Int, rnd: Random)(nb: Int, pick: (Int) => String): List[String] = {
+    def rndInt(): Int = {
+      val i = rnd.nextInt(size)
+      if (i == not) rndInt() else i
     }
+    (1 to nb).map(i => pick(rndInt())).toList
+  }
+
+  def makeQuiz(rnd: Random, pickL1: (Int) => String, pickL2: (Int) => String): Quiz = {
+    val index = rnd.nextInt(size)
+    val question = pickL1(index)
+    val answers: List[String] = randomWords(index, rnd)(3, pickL2)
+    val correctAnswer = rnd.nextInt(4)
+    val randomAnswers: List[String] = answers.take(correctAnswer) ::: List(pickL2(index)) ::: answers.drop(correctAnswer)
+    return Quiz(question, randomAnswers, correctAnswer, Easy)
+  }
+
+  def quiz(rnd: Random): Quiz = {
+    if (rnd.nextBoolean()) makeQuiz(rnd, french, english)
+    else makeQuiz(rnd, english, french)
   }
 }
